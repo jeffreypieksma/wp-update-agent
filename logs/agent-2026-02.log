@@ -1,0 +1,28 @@
+[2026-02-02 18:07:46] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":1}
+[2026-02-02 18:08:00] [INFO] Action: update_all_plugins | Status: success | Context: {"message":"No updates available"}
+[2026-02-02 18:08:07] [INFO] Action: core_check | Status: success | Context: {"current_version":"6.9","update_available":false,"new_version":null}
+[2026-02-02 18:08:11] [ERROR] Action: core_update | Status: error | Context: {"error":"No applicable update found","requested_version":null}
+[2026-02-02 18:08:15] [INFO] Action: language_update | Status: success | Context: {"message":"No language updates available"}
+[2026-02-02 18:08:18] [INFO] Action: system_status | Status: success
+[2026-02-02 18:08:29] [INFO] Action: smtp_test | Status: success | Context: {"to":"info@webdesign-joure.nl"}
+[2026-02-02 18:47:17] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":3}
+[2026-02-02 18:47:39] [INFO] Action: update_all_plugins | Status: success | Context: {"updated":["woocommerce"],"failed":[]}
+[2026-02-02 19:02:03] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":3}
+[2026-02-02 19:10:03] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":3}
+[2026-02-02 19:18:22] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":4}
+[2026-02-02 19:18:28] [INFO] Action: core_check | Status: success | Context: {"current_version":"6.7.4","update_available":true,"new_version":"6.9"}
+[2026-02-02 19:18:43] [INFO] Action: smtp_test | Status: success | Context: {"to":"info@webdesign-joure.nl"}
+[2026-02-02 19:19:35] [INFO] Action: smtp_test | Status: success | Context: {"to":"info@webdesign-joure.nl"}
+[2026-02-02 19:20:09] [INFO] Action: core_update | Status: success | Context: {"old_version":"6.7.4","new_version":"6.7.4"}
+[2026-02-02 19:24:55] [INFO] Action: smtp_test | Status: success | Context: {"to":"info@webdesign-joure.nl"}
+[2026-02-02 19:26:36] [INFO] Action: core_check | Status: success | Context: {"current_version":"6.9","update_available":false,"new_version":null}
+[2026-02-03 13:07:34] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":7}
+[2026-02-03 13:08:44] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":7}
+[2026-02-03 13:09:18] [INFO] Action: core_check | Status: success | Context: {"current_version":"6.9","update_available":false,"new_version":null}
+[2026-02-03 13:09:23] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":7}
+[2026-02-03 13:09:26] [INFO] Action: plugin_list | Status: success | Context: {"total_plugins":7}
+[2026-02-03 13:09:52] [INFO] Action: update_all_plugins | Status: success | Context: {"updated":["elementskit-lite","wordpress-seo"],"failed":[]}
+[2026-02-03 16:39:06] [INFO] Action: theme_list | Status: success | Context: {"total_themes":3}
+[2026-02-03 18:07:19] [ERROR] Action: delete_plugin | Status: error | Context: {"slug":"core-rollback","error":"Plugin is still active"}
+[2026-02-03 18:07:26] [INFO] Action: deactivate_plugin | Status: success | Context: {"slug":"core-rollback"}
+[2026-02-03 18:07:37] [INFO] Action: delete_plugin | Status: success | Context: {"slug":"core-rollback"}
