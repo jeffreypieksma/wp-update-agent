@@ -18,7 +18,7 @@
 		.then( function ( r ) { return r.json(); } )
 		.then( render )
 		.catch( function () {
-			cardEl.innerHTML = '<p class="wua-notice error">Kon token-status niet laden.</p>';
+			cardEl.innerHTML = '<p class="wua-notice error">Could not load token status.</p>';
 		} );
 
 	/* ── Render ── */
@@ -26,29 +26,29 @@
 		var html = '';
 
 		if ( data.has_token ) {
-			var sourceLabel = data.source === 'config' ? 'wp-config.php' : 'Database (versleuteld)';
+			var sourceLabel = data.source === 'config' ? 'wp-config.php' : 'Database (encrypted)';
 			html += '<div class="wua-github-status">';
 			html += '<span class="wua-status-dot wua-status-green"></span>';
-			html += '<span class="wua-github-status-text">Token actief</span>';
+			html += '<span class="wua-github-status-text">Token active</span>';
 			html += '<span class="wua-github-status-masked" style="margin-left:12px;font-family:monospace;">' + esc( data.masked ) + '</span>';
-			html += '<span class="wua-github-status-source" style="margin-left:12px;color:#737373;">Bron: ' + esc( sourceLabel ) + '</span>';
+			html += '<span class="wua-github-status-source" style="margin-left:12px;color:#737373;">Source: ' + esc( sourceLabel ) + '</span>';
 			html += '</div>';
 		} else {
 			html += '<div class="wua-github-status">';
 			html += '<span class="wua-status-dot wua-status-red"></span>';
-			html += '<span class="wua-github-status-text" style="color:#737373;">Geen token ingesteld</span>';
+			html += '<span class="wua-github-status-text" style="color:#737373;">No token configured</span>';
 			html += '</div>';
 		}
 
 		html += '<div class="wua-github-form" style="margin-top:15px;">';
 		html += '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">';
 		html += '<input type="password" id="wua-github-token-input" class="wua-test-input" style="max-width:400px;margin-bottom:0;" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" />';
-		html += '<button type="button" class="wua-btn wua-btn-primary" id="wua-github-save-btn">Opslaan</button>';
+		html += '<button type="button" class="wua-btn wua-btn-primary" id="wua-github-save-btn">Save</button>';
 		if ( data.has_token && data.source === 'db' ) {
-			html += '<button type="button" class="wua-btn wua-btn-danger" id="wua-github-delete-btn">Verwijderen</button>';
+			html += '<button type="button" class="wua-btn wua-btn-danger" id="wua-github-delete-btn">Delete</button>';
 		}
 		html += '</div>';
-		html += '<p style="margin-top:10px;color:#737373;font-size:13px;">Je kunt ook <code>WP_UPDATE_AGENT_GITHUB_TOKEN</code> defini\u00ebren in wp-config.php als alternatief.</p>';
+		html += '<p style="margin-top:10px;color:#737373;font-size:13px;">You can also define <code>WP_UPDATE_AGENT_GITHUB_TOKEN</code> in wp-config.php as an alternative.</p>';
 		html += '</div>';
 
 		html += '<div id="wua-github-feedback" style="margin-top:10px;"></div>';
@@ -66,11 +66,11 @@
 		var input = document.getElementById( 'wua-github-token-input' );
 		var token = input.value.trim();
 		if ( ! token ) {
-			showFeedback( 'Voer een token in.', 'error' );
+			showFeedback( 'Please enter a token.', 'error' );
 			return;
 		}
 
-		showFeedback( 'Opslaan\u2026', 'saving' );
+		showFeedback( 'Saving\u2026', 'saving' );
 
 		fetch( API + '/github-token', {
 			method:  'POST',
@@ -83,18 +83,18 @@
 					showFeedback( data.error, 'error' );
 					return;
 				}
-				showFeedback( 'Token opgeslagen!', 'saved' );
+				showFeedback( 'Token saved!', 'saved' );
 				input.value = '';
 				render( data );
 			} )
 			.catch( function () {
-				showFeedback( 'Fout bij opslaan.', 'error' );
+				showFeedback( 'Error saving token.', 'error' );
 			} );
 	}
 
 	/* ── Delete ── */
 	function deleteToken() {
-		showFeedback( 'Verwijderen\u2026', 'saving' );
+		showFeedback( 'Deleting\u2026', 'saving' );
 
 		fetch( API + '/github-token', {
 			method:  'DELETE',
@@ -102,11 +102,11 @@
 		} )
 			.then( function ( r ) { return r.json(); } )
 			.then( function ( data ) {
-				showFeedback( 'Token verwijderd.', 'saved' );
+				showFeedback( 'Token deleted.', 'saved' );
 				render( data );
 			} )
 			.catch( function () {
-				showFeedback( 'Fout bij verwijderen.', 'error' );
+				showFeedback( 'Error deleting token.', 'error' );
 			} );
 	}
 

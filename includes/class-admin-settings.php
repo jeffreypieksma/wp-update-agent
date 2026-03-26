@@ -896,7 +896,7 @@ CODE;
         
         <div class="wua-card" style="margin-top: 20px;">
             <h3><span class="dashicons dashicons-update"></span> <?php esc_html_e('GitHub Auto-Updater', 'wp-update-agent'); ?></h3>
-            <p><?php esc_html_e('Stel een GitHub Personal Access Token in om automatische updates te ontvangen vanuit je private repository.', 'wp-update-agent'); ?></p>
+            <p><?php esc_html_e('Set a GitHub Personal Access Token to receive automatic updates from your private repository.', 'wp-update-agent'); ?></p>
             <div id="wua-github-token-card"></div>
         </div>
 
