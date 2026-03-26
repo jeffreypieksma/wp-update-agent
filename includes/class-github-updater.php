@@ -1,11 +1,12 @@
 <?php
 /**
- * GitHub-based auto-updater for private repositories.
+ * GitHub-based auto-updater for public and private repositories.
  *
  * Checks the GitHub Releases API for new versions and injects
  * update data into the WordPress plugin update transient.
  *
- * Token priority:
+ * Works without a token for public repos. For private repos,
+ * token priority:
  *   1. Encrypted token in database (set via plugin admin UI).
  *   2. WP_UPDATE_AGENT_GITHUB_TOKEN constant in wp-config.php (fallback).
  *
@@ -253,28 +254,26 @@ class WP_Update_Agent_GitHub_Updater {
 	 *------------------------------------------------------------*/
 
 	private function get_latest_release(): ?array {
+		$cached = get_transient( $this->cache_key );
+		if ( false !== $cached ) {
+			return $cached ?: null;
+		}
+
 		$token = $this->get_token();
+		$url   = "https://api.github.com/repos/{$this->repo}/releases/latest";
+
+		$headers = array(
+			'Accept'     => 'application/vnd.github.v3+json',
+			'User-Agent' => 'WP-Update-Agent-Updater/' . $this->version,
+		);
 
 		if ( $token ) {
-			$cached = get_transient( $this->cache_key );
-			if ( false !== $cached ) {
-				return $cached ?: null;
-			}
+			$headers['Authorization'] = 'token ' . $token;
 		}
-
-		if ( ! $token ) {
-			return null;
-		}
-
-		$url = "https://api.github.com/repos/{$this->repo}/releases/latest";
 
 		$response = wp_remote_get( $url, array(
 			'timeout' => 10,
-			'headers' => array(
-				'Authorization' => 'token ' . $token,
-				'Accept'        => 'application/vnd.github.v3+json',
-				'User-Agent'    => 'WP-Update-Agent-Updater/' . $this->version,
-			),
+			'headers' => $headers,
 		) );
 
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
