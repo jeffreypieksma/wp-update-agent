@@ -46,8 +46,35 @@ class WP_Update_Agent_Admin_Settings {
         // AJAX handlers
         add_action('wp_ajax_wp_update_agent_test', array(__CLASS__, 'handle_ajax_test'));
         add_action('wp_ajax_wp_update_agent_get_docs', array(__CLASS__, 'handle_ajax_get_docs'));
+        
+        // Enqueue GitHub token management script on our settings page.
+        add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_github_script'));
     }
     
+    /**
+     * Enqueue GitHub token management script on our admin page.
+     */
+    public static function enqueue_github_script( $hook ) {
+        if ( 'toplevel_page_wp-update-agent' !== $hook ) {
+            return;
+        }
+        $current_tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'dashboard';
+        if ( 'settings' !== $current_tab ) {
+            return;
+        }
+        wp_enqueue_script(
+            'wua-github',
+            WP_UPDATE_AGENT_PLUGIN_URL . 'assets/js/github.js',
+            array(),
+            WP_UPDATE_AGENT_VERSION,
+            true
+        );
+        wp_localize_script( 'wua-github', 'wpUpdateAgent', array(
+            'restBase' => esc_url_raw( rest_url( 'wp-update-agent/v1' ) ),
+            'nonce'    => wp_create_nonce( 'wp_rest' ),
+        ) );
+    }
+
     /**
      * Handle AJAX test requests
      */
@@ -867,6 +894,12 @@ CODE;
             <?php submit_button(__('Save Settings', 'wp-update-agent'), 'wua-btn wua-btn-primary', 'submit', false); ?>
         </form>
         
+        <div class="wua-card" style="margin-top: 20px;">
+            <h3><span class="dashicons dashicons-update"></span> <?php esc_html_e('GitHub Auto-Updater', 'wp-update-agent'); ?></h3>
+            <p><?php esc_html_e('Stel een GitHub Personal Access Token in om automatische updates te ontvangen vanuit je private repository.', 'wp-update-agent'); ?></p>
+            <div id="wua-github-token-card"></div>
+        </div>
+
         <?php if (WP_Update_Agent_Locker::is_locked()): ?>
         <div class="wua-card" style="margin-top: 30px; border-color: #ffc107;">
             <h3><span class="dashicons dashicons-lock"></span> <?php esc_html_e('Lock Management', 'wp-update-agent'); ?></h3>

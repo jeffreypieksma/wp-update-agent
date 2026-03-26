@@ -74,6 +74,7 @@ final class WP_Update_Agent {
         require_once WP_UPDATE_AGENT_PLUGIN_DIR . 'includes/class-smtp-handler.php';
         require_once WP_UPDATE_AGENT_PLUGIN_DIR . 'includes/class-rest-api.php';
         require_once WP_UPDATE_AGENT_PLUGIN_DIR . 'includes/class-auto-login.php';
+        require_once WP_UPDATE_AGENT_PLUGIN_DIR . 'includes/class-github-updater.php';
         
         if (is_admin()) {
             require_once WP_UPDATE_AGENT_PLUGIN_DIR . 'includes/class-admin-settings.php';
@@ -86,6 +87,13 @@ final class WP_Update_Agent {
     private function init_hooks() {
         // Initialize REST API
         add_action('rest_api_init', array($this, 'init_rest_api'));
+        
+        // GitHub auto-updater (private repo).
+        new WP_Update_Agent_GitHub_Updater(
+            'jeffreypieksma/wp-update-agent',
+            WP_UPDATE_AGENT_PLUGIN_DIR . 'wp-update-agent.php',
+            WP_UPDATE_AGENT_PLUGIN_BASENAME
+        );
         
         // Initialize admin settings
         if (is_admin()) {
